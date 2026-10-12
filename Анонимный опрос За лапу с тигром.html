@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опрос — Хабаровский край. За лапу с тигром</title>
+<style>
+:root{
+  --green-900:#0d2b1c; --green-700:#14532d; --green-500:#1f7a45;
+  --green-100:#e3efe6; --green-50:#f2f7f3;
+  --gold:#c68a2e; --gold-light:#e8b45a; --gold-bg:#fbf3e2;
+  --paper:#f7f5f0; --card:#ffffff; --ink:#1b211d; --muted:#5d6b62;
+  --line:#e0ddd4; --radius:14px;
+  --shadow:0 2px 8px rgba(13,43,28,.06), 0 12px 28px rgba(13,43,28,.07);
+  --serif: Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--sans);background:var(--paper);color:var(--ink);
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px;}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(247,245,240,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:70px;gap:20px;}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);}
+.logo-mark{
+  width:40px;height:40px;flex:0 0 40px;border-radius:11px;
+  background:linear-gradient(150deg,var(--green-700),var(--green-500));
+  display:grid;place-items:center;color:#fff;
+  box-shadow:0 4px 12px rgba(20,83,45,.28);
+}
+.logo-mark svg{width:22px;height:22px;}
+.logo-text b{display:block;font-family:var(--serif);font-size:16px;line-height:1.15;}
+.logo-text span{font-size:11px;color:var(--muted);letter-spacing:.9px;text-transform:uppercase;}
+
+/* HERO */
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(900px 420px at 78% 8%, rgba(198,138,46,.30), transparent 62%),
+    radial-gradient(700px 500px at 12% 92%, rgba(31,122,69,.42), transparent 65%),
+    linear-gradient(160deg,#0d2b1c 0%,#123c26 55%,#0d2b1c 100%);
+  color:#fff;padding:64px 0 56px;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+  background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px);
+}
+.hero .wrap{position:relative;z-index:2;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--gold-light);font-weight:600;margin-bottom:18px;
+  border:1px solid rgba(232,180,90,.35);
+  padding:6px 14px;border-radius:100px;background:rgba(232,180,90,.08);
+}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(26px,4.4vw,40px);
+  line-height:1.15;font-weight:700;letter-spacing:-.4px;
+  max-width:720px;margin-bottom:14px;
+}
+.hero h1 em{font-style:normal;color:var(--gold-light);}
+.hero p.lead{
+  font-size:clamp(15px,1.7vw,17px);color:rgba(255,255,255,.78);
+  max-width:640px;
+}
+
+/* INTRO */
+.intro{
+  background:#fff;border:1px solid var(--line);
+  border-left:4px solid var(--green-500);
+  border-radius:0 14px 14px 0;
+  padding:22px 26px;margin:32px 0 28px;
+  font-size:15px;color:var(--muted);
+}
+.intro b{color:var(--ink);font-family:var(--serif);}
+
+/* FORM */
+form{padding-bottom:60px;}
+
+fieldset{
+  border:0;background:#fff;border:1px solid var(--line);
+  border-radius:16px;padding:28px 30px 26px;
+  margin-bottom:22px;box-shadow:0 1px 2px rgba(13,43,28,.04);
+}
+legend{
+  font-family:var(--serif);font-size:20px;
+  padding:0 4px;margin-bottom:6px;display:block;
+  color:var(--ink);letter-spacing:-.2px;
+}
+fieldset > .kicker{
+  font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--green-500);font-weight:700;
+  margin-bottom:6px;display:block;
+}
+fieldset > .sub{
+  font-size:14px;color:var(--muted);margin-bottom:20px;display:block;
+}
+
+.q{
+  padding:20px 0;border-top:1px solid var(--line);
+}
+.q:first-of-type{border-top:0;padding-top:6px;}
+.q > .q-title{
+  font-size:15px;font-weight:600;color:var(--ink);
+  margin-bottom:14px;display:block;line-height:1.5;
+}
+.q > .q-title .num{
+  display:inline-block;font-family:var(--serif);font-weight:700;
+  color:var(--gold);margin-right:8px;font-size:15px;
+}
+.q > .hint{
+  font-size:12.5px;color:var(--muted);font-style:italic;
+  margin:-8px 0 12px;display:block;
+}
+
+/* OPTIONS */
+.opts{display:grid;gap:8px;}
+.opts.two-col{grid-template-columns:1fr 1fr;}
+.opts.three-col{grid-template-columns:1fr 1fr 1fr;}
+
+.opt{
+  display:flex;align-items:flex-start;gap:11px;
+  padding:11px 14px;border:1px solid var(--line);
+  border-radius:10px;cursor:pointer;transition:.16s;
+  background:#fff;font-size:14px;line-height:1.5;
+  user-select:none;
+}
+.opt:hover{border-color:rgba(31,122,69,.45);background:var(--green-50);}
+.opt input{
+  appearance:none;-webkit-appearance:none;
+  width:18px;height:18px;flex:0 0 18px;margin-top:2px;
+  border:2px solid var(--line);border-radius:50%;
+  background:#fff;cursor:pointer;transition:.16s;position:relative;
+}
+.opt input[type="checkbox"]{border-radius:5px;}
+.opt input:checked{
+  border-color:var(--green-500);background:var(--green-500);
+}
+.opt input[type="radio"]:checked::after{
+  content:"";position:absolute;inset:3.5px;border-radius:50%;
+  background:#fff;
+}
+.opt input[type="checkbox"]:checked::after{
+  content:"";position:absolute;
+  left:5px;top:1.5px;width:5px;height:10px;
+  border:solid #fff;border-width:0 2.5px 2.5px 0;
+  transform:rotate(45deg);
+}
+.opt:has(input:checked){
+  border-color:var(--green-500);background:var(--green-50);
+}
+.opt span{flex:1;}
+
+/* INPUT */
+input.text-input{
+  width:100%;padding:11px 14px;border-radius:10px;
+  border:1px solid var(--line);font-size:14px;font-family:inherit;
+  background:#fff;color:var(--ink);outline:none;transition:.16s;
+}
+input.text-input:focus{border-color:var(--green-500);box-shadow:0 0 0 3px rgba(31,122,69,.12);}
+
+/* SUBMIT */
+.submit-block{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:28px 30px;text-align:center;
+  box-shadow:0 1px 2px rgba(13,43,28,.04);
+  margin-bottom:20px;
+}
+.submit-block p{
+  font-size:14.5px;color:var(--muted);margin-bottom:18px;
+}
+.btn-submit{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 34px;border:0;border-radius:12px;cursor:pointer;
+  background:var(--green-700);color:#fff;
+  font-family:inherit;font-size:15px;font-weight:700;
+  transition:.2s;box-shadow:0 6px 18px rgba(20,83,45,.24);
+}
+.btn-submit:hover{background:var(--green-900);transform:translateY(-1px);}
+.btn-submit svg{width:17px;height:17px;}
+
+/* FOOTER */
+footer{
+  background:var(--green-900);color:rgba(255,255,255,.6);
+  padding:36px 0 28px;font-size:13.5px;
+}
+.foot-inner{
+  display:flex;justify-content:space-between;gap:16px;
+  flex-wrap:wrap;align-items:center;
+}
+.foot-brand{display:flex;align-items:center;gap:11px;}
+.foot-brand .logo-mark{
+  width:34px;height:34px;flex:0 0 34px;border-radius:9px;
+}
+.foot-brand .logo-mark svg{width:19px;height:19px;}
+.foot-brand b{color:#fff;font-family:var(--serif);font-size:14px;}
+
+/* SUCCESS */
+.success{
+  display:none;
+  background:#fff;border:1px solid var(--line);
+  border-radius:16px;padding:48px 32px;text-align:center;
+  box-shadow:var(--shadow);margin-bottom:24px;
+}
+.success.show{display:block;}
+.success .ico{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--green-100);color:var(--green-700);
+  display:grid;place-items:center;margin:0 auto 18px;
+}
+.success .ico svg{width:32px;height:32px;}
+.success h2{
+  font-family:var(--serif);font-size:24px;margin-bottom:10px;
+  color:var(--ink);
+}
+.success p{color:var(--muted);font-size:15px;max-width:480px;margin:0 auto;}
+
+/* RESPONSIVE */
+@media (max-width:640px){
+  .hero{padding:48px 0 42px;}
+  fieldset{padding:22px 20px;}
+  .opts.two-col,.opts.three-col{grid-template-columns:1fr;}
+  .intro{padding:18px 20px;}
+  .foot-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/>
+          <circle cx="12" cy="10" r="2.5"/>
+        </svg>
+      </span>
+      <span class="logo-text">
+        <b>За лапу с тигром</b>
+        <span>Опрос</span>
+      </span>
+    </a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Опрос для проекта</span>
+    <h1>Хабаровский край. <em>За лапу с тигром</em></h1>
+    <p class="lead">
+      Мы работаем над цифровым путеводителем, который объединит информацию
+      обо всех районах края. Помогите нам — ответьте на 12 вопросов.
+    </p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="intro">
+    <b>Здравствуйте!</b> Мы работаем над проектом «Хабаровский край. За лапу с тигром» — цифровым путеводителем, который объединит информацию обо всех районах края: историю, природу, достопримечательности и туристические маршруты.
+    Ответьте, пожалуйста, на 12 вопросов. Это займёт 4–5 минут. Опрос анонимный, результаты будут использованы только для развития проекта. Спасибо!
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <h2>Спасибо за участие!</h2>
+    <p>Ваши ответы помогут нам сделать путеводитель удобным и полезным. Мы обязательно учтём ваши пожелания.</p>
+  </div>
+
+  <form id="surveyForm">
+
+    <!-- ===== БЛОК 1. ПРОБЛЕМА ===== -->
+    <fieldset>
+      <span class="kicker">Блок 1 из 4</span>
+      <legend>Проблема</legend>
+      <span class="sub">Несколько вопросов о том, как вы ищете информацию о крае.</span>
+
+      <!-- Q1 -->
+      <div class="q">
+        <span class="q-title"><span class="num">01</span>Приходилось ли вам искать информацию о каком-либо районе Хабаровского края?</span>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q1" value="Да, часто"><span>Да, часто</span></label>
+          <label class="opt"><input type="radio" name="q1" value="Да, иногда"><span>Да, иногда</span></label>
+          <label class="opt"><input type="radio" name="q1" value="Нет, никогда"><span>Нет, никогда</span></label>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q">
+        <span class="q-title"><span class="num">02</span>Где вы обычно ищете информацию о районах края?</span>
+        <span class="hint">Можно выбрать несколько вариантов</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="checkbox" name="q2" value="Поисковые системы"><span>Поисковые системы (Google, Яндекс)</span></label>
+          <label class="opt"><input type="checkbox" name="q2" value="Социальные сети"><span>Социальные сети и мессенджеры</span></label>
+          <label class="opt"><input type="checkbox" name="q2" value="Официальные сайты"><span>Официальные сайты (habtravel.ru, travel.khv.ru)</span></label>
+          <label class="opt"><input type="checkbox" name="q2" value="Книги и краеведение"><span>Книги и краеведческая литература</span></label>
+          <label class="opt"><input type="checkbox" name="q2" value="Знакомые"><span>Спрашиваю у знакомых</span></label>
+          <label class="opt"><input type="checkbox" name="q2" value="Не ищу"><span>Не ищу</span></label>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q">
+        <span class="q-title"><span class="num">03</span>Что вас не устраивает в существующих источниках информации о районах края?</span>
+        <span class="hint">Можно выбрать несколько вариантов</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="checkbox" name="q3" value="Разрозненность"><span>Информация разрознена — приходится собирать по кусочкам</span></label>
+          <label class="opt"><input type="checkbox" name="q3" value="Мало информации"><span>Мало информации о конкретных районах</span></label>
+          <label class="opt"><input type="checkbox" name="q3" value="Устаревшие данные"><span>Устаревшие данные</span></label>
+          <label class="opt"><input type="checkbox" name="q3" value="Нет структуры"><span>Нет структуры — сложно найти нужное</span></label>
+          <label class="opt"><input type="checkbox" name="q3" value="Нет карт"><span>Нет карт и маршрутов</span></label>
+          <label class="opt"><input type="checkbox" name="q3" value="Недоверие"><span>Непонятно, чему доверять</span></label>
+          <label class="opt"><input type="checkbox" name="q3" value="Всё устраивает"><span>Всё устраивает</span></label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== БЛОК 2. ПОТРЕБНОСТИ ===== -->
+    <fieldset>
+      <span class="kicker">Блок 2 из 4</span>
+      <legend>Потребности</legend>
+      <span class="sub">Что для вас важно и какие районы интересны.</span>
+
+      <!-- Q4 -->
+      <div class="q">
+        <span class="q-title"><span class="num">04</span>Что для вас важнее всего при выборе места для поездки по краю?</span>
+        <span class="hint">Выберите до 3 вариантов</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="checkbox" name="q4" value="История"><span>История места</span></label>
+          <label class="opt"><input type="checkbox" name="q4" value="Природа"><span>Природа и ландшафты</span></label>
+          <label class="opt"><input type="checkbox" name="q4" value="Достопримечательности"><span>Достопримечательности</span></label>
+          <label class="opt"><input type="checkbox" name="q4" value="Этнография"><span>Этнография и культура коренных народов</span></label>
+          <label class="opt"><input type="checkbox" name="q4" value="Маршруты"><span>Туристические маршруты</span></label>
+          <label class="opt"><input type="checkbox" name="q4" value="Как добраться"><span>Как добраться</span></label>
+          <label class="opt"><input type="checkbox" name="q4" value="Где остановиться"><span>Где остановиться и поесть</span></label>
+          <label class="opt"><input type="checkbox" name="q4" value="Активный отдых"><span>Возможность активного отдыха (походы, сплавы)</span></label>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="q">
+        <span class="q-title"><span class="num">05</span>Какие районы Хабаровского края вам интересны?</span>
+        <span class="hint">Можно выбрать несколько вариантов</span>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" name="q5" value="Центральные"><span>Центральные (Хабаровский, Комсомольский, Нанайский, Солнечный)</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="Северные"><span>Северные (Охотский, Николаевский, Верхнебуреинский и др.)</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="Южные"><span>Южные (им. Лазо, Вяземский, Бикинский)</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="Побережье"><span>Побережье (Ванинский, Советско-Гаванский)</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="Затрудняюсь"><span>Затрудняюсь ответить</span></label>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="q">
+        <span class="q-title"><span class="num">06</span>Хотели бы вы посетить районы края, о которых мало информации?</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="radio" name="q6" value="Да, очень"><span>Да, очень хотел(а) бы</span></label>
+          <label class="opt"><input type="radio" name="q6" value="Скорее да"><span>Скорее да</span></label>
+          <label class="opt"><input type="radio" name="q6" value="Скорее нет"><span>Скорее нет</span></label>
+          <label class="opt"><input type="radio" name="q6" value="Нет"><span>Нет, мне это не интересно</span></label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== БЛОК 3. ФУНКЦИИ САЙТА ===== -->
+    <fieldset>
+      <span class="kicker">Блок 3 из 4</span>
+      <legend>Функции сайта</legend>
+      <span class="sub">Что бы вы хотели видеть в путеводителе.</span>
+
+      <!-- Q7 -->
+      <div class="q">
+        <span class="q-title"><span class="num">07</span>Какие разделы вы хотели бы видеть на сайте о районах края?</span>
+        <span class="hint">Можно выбрать несколько вариантов</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="checkbox" name="q7" value="История"><span>История каждого района</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Природа"><span>Природа и природные объекты</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Достопримечательности"><span>Достопримечательности с фото и описанием</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Маршруты"><span>Готовые туристические маршруты</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Карта"><span>Интерактивная карта с объектами</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Транспорт"><span>Информация о транспорте — как добраться</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Этнография"><span>Этнография коренных народов</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Медиа"><span>Аудиогиды и видео</span></label>
+          <label class="opt"><input type="checkbox" name="q7" value="Для школьников"><span>Материалы для школьников и студентов</span></label>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="q">
+        <span class="q-title"><span class="num">08</span>Была бы вам полезна функция автоматического планирования поездки?</span>
+        <span class="hint">Выбираете район, сезон, интересы — сайт составляет план</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="radio" name="q8" value="Да, очень"><span>Да, очень полезна</span></label>
+          <label class="opt"><input type="radio" name="q8" value="Скорее да"><span>Скорее да</span></label>
+          <label class="opt"><input type="radio" name="q8" value="Скорее нет"><span>Скорее нет</span></label>
+          <label class="opt"><input type="radio" name="q8" value="Нет"><span>Нет, не нужна</span></label>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="q">
+        <span class="q-title"><span class="num">09</span>Как вы относитесь к названию «Хабаровский край. За лапу с тигром»?</span>
+        <span class="hint">Тигр — символ края, изображён на гербе и флаге</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="radio" name="q9" value="Отлично"><span>Отлично, запоминается</span></label>
+          <label class="opt"><input type="radio" name="q9" value="Хорошо"><span>Хорошо, но необычно</span></label>
+          <label class="opt"><input type="radio" name="q9" value="Нейтрально"><span>Нейтрально</span></label>
+          <label class="opt"><input type="radio" name="q9" value="Не нравится"><span>Не нравится</span></label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===== БЛОК 4. О ВАС ===== -->
+    <fieldset>
+      <span class="kicker">Блок 4 из 4</span>
+      <legend>О вас</legend>
+      <span class="sub">Несколько общих вопросов — это поможет понять аудиторию.</span>
+
+      <!-- Q10 -->
+      <div class="q">
+        <span class="q-title"><span class="num">10</span>Ваш возраст</span>
+        <div class="opts three-col">
+          <label class="opt"><input type="radio" name="q10" value="До 18"><span>До 18 лет</span></label>
+          <label class="opt"><input type="radio" name="q10" value="18-25"><span>18–25</span></label>
+          <label class="opt"><input type="radio" name="q10" value="26-35"><span>26–35</span></label>
+          <label class="opt"><input type="radio" name="q10" value="36-50"><span>36–50</span></label>
+          <label class="opt"><input type="radio" name="q10" value="50+"><span>Старше 50</span></label>
+        </div>
+      </div>
+
+      <!-- Q11 -->
+      <div class="q">
+        <span class="q-title"><span class="num">11</span>Ваш род занятий</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="radio" name="q11" value="Школьник / студент"><span>Школьник / студент</span></label>
+          <label class="opt"><input type="radio" name="q11" value="Работаю"><span>Работаю</span></label>
+          <label class="opt"><input type="radio" name="q11" value="Пенсионер"><span>Пенсионер</span></label>
+          <label class="opt"><input type="radio" name="q11" value="Другое"><span>Другое</span></label>
+        </div>
+      </div>
+
+      <!-- Q12 -->
+      <div class="q">
+        <span class="q-title"><span class="num">12</span>Вы живёте в Хабаровском крае?</span>
+        <div class="opts two-col">
+          <label class="opt"><input type="radio" name="q12" value="Хабаровск"><span>Да, в Хабаровске</span></label>
+          <label class="opt"><input type="radio" name="q12" value="Другой город края"><span>Да, в другом городе или районе края</span></label>
+          <label class="opt"><input type="radio" name="q12" value="Другой регион РФ"><span>Нет, в другом регионе России</span></label>
+          <label class="opt"><input type="radio" name="q12" value="За пределами РФ"><span>Нет, за пределами России</span></label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SUBMIT -->
+    <div class="submit-block">
+      <p>Спасибо, что дошли до конца! Нажмите кнопку, чтобы отправить ответы.</p>
+      <button type="submit" class="btn-submit">
+        Отправить ответы
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="foot-brand">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/>
+          <circle cx="12" cy="10" r="2.5"/>
+        </svg>
+      </span>
+      <b>Хабаровский край. За лапу с тигром</b>
+    </div>
+    <span>Опрос для проектной работы · 2026</span>
+  </div>
+</footer>
+
+<script>
+/* ====== ВСТАВЬТЕ СЮДА ВАШ URL (заканчивается на /exec) ====== */
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaCrIL5vB2u0nDUi3yDkdiSjC8JYPsB-E0lM4QK43VHnLG1Ja9pRlJDTFsnxhTNqncXA/exec';
+
+const form = document.getElementById('surveyForm');
+const success = document.getElementById('success');
+const submitBtn = form.querySelector('.btn-submit');
+
+/* Ограничение «до 3 вариантов» для вопроса 4 */
+document.querySelectorAll('input[name="q4"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const checked = document.querySelectorAll('input[name="q4"]:checked');
+    if (checked.length > 3) {
+      cb.checked = false;
+      cb.parentElement.style.borderColor = '#b94a4a';
+      setTimeout(() => cb.parentElement.style.borderColor = '', 600);
+    }
+  });
+});
+
+/* Отправка в Google Таблицу */
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData(form);
+  const params = new URLSearchParams();
+
+  // Несколько отмеченных чекбоксов склеиваем в одну ячейку через "; "
+  for (const [key, value] of fd.entries()) {
+    if (params.has(key)) {
+      params.set(key, params.get(key) + '; ' + value);
+    } else {
+      params.set(key, value);
+    }
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.style.opacity = '0.6';
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // надёжнее для Apps Script
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: params.toString()
+    });
+
+    form.style.display = 'none';
+    success.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error(err);
+    alert('Не удалось отправить ответы. Проверьте интернет и попробуйте ещё раз.');
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = '';
+  }
+});
+</script>
+
+</body>
+</html>
